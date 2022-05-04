@@ -1,0 +1,12 @@
+# Development server folder
+server/
+
+# IntelliJ
+.idea/
+
+# Gradle
+.gradle
+/build/
+
+# MacOS
+*.DS_Store

@@ -1,0 +1,38 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+    id 'java'
+}
+
+group 'me.hgk'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+    mavenCentral()
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
+
+jar {
+    destinationDirectory.set(file("$rootDir/server/plugins"))
+
+    duplicatesStrategy = DuplicatesStrategy.WARN
+    // This line of code recursively collects and copies all of a project's files
+    // and adds them to the JAR itself. One can extend this task, to skip certain
+    // files or particular types at will
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
